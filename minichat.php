@@ -1,7 +1,14 @@
+<?php
+
+session_start();
+
+if(!isset($_SESSION['messages'])) $_SESSION['messages'] = '';
+
+?>
 <html>
 
  <head>
-
+ <meta charset="UTF-8"> 
  <title>Mini-chat</title>
 
  </head>
@@ -16,7 +23,8 @@
 		<button style="margin-top:10px;width:70px;margin-left:40px" name="envoyer" type="submit">Envoyer</button>
 	</form>
 	
-	<div style="width:50%; border:solid 1px; height:75%">
+	<div style="width:30%; border:solid 1px; height:65%">
+		<?php echo $_SESSION['messages']; ?>
 	</div>
  
  </body>
