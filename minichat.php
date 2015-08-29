@@ -23,7 +23,7 @@ if(!isset($_SESSION['messages'])) $_SESSION['messages'] = '';
 		<button style="margin-top:10px;width:70px;margin-left:40px" name="envoyer" type="submit">Envoyer</button>
 	</form>
 	
-	<div style="width:30%; border:solid 1px; height:65%">
+	<div style="width:30%; padding:5px; border:solid 1px; height:65%">
 		<?php echo $_SESSION['messages']; ?>
 	</div>
  
