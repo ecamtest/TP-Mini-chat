@@ -1,9 +1,9 @@
 <?php
 
-setcookie('pseudo', $_POST['pseudo'], time() + 24*3600, null, null, false, true);
-
 if(!($_POST['pseudo'])=='' and !($_POST['message'])=='')
 {
+	setcookie('pseudo', htmlspecialchars($_POST['pseudo']), time() + 24*3600, null, null, false, true);
+	
 	try
 	{
 		$bdd = new PDO('mysql:host=localhost;dbname=minichat;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
