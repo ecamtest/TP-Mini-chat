@@ -1,33 +1,24 @@
 <?php
 
-session_start();
+setcookie('pseudo', $_POST['pseudo'], time() + 24*3600, null, null, false, true);
 
-try
+if(!($_POST['pseudo'])=='' and !($_POST['message'])=='')
 {
-$bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+	try
+	{
+		$bdd = new PDO('mysql:host=localhost;dbname=minichat;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+	}
+	catch (Exception $e)
+	{
+		die('Erreur : ' . $e->getMessage());
+	}
+
+	$req = $bdd->prepare('INSERT INTO messages(date_msg, pseudo, message) VALUES(NOW(), :pseudo, :message)');
+
+	$req->execute(array(
+	'pseudo' => $_POST['pseudo'],
+	'message' => $_POST['message'],
+	));
 }
-catch (Exception $e)
-{
-	die('Erreur : ' . $e->getMessage());
-}
-
-$pseudo = htmlspecialchars($_POST['pseudo']);
-$message = htmlspecialchars($_POST['message']);
-
-$req = $bdd->prepare('INSERT INTO minichat(pseudo, message) VALUES(:pseudo, :message)');
-
-$req->execute(array(
-'pseudo' => $pseudo,
-'message' => $message,
-));
-
-$reponse = $bdd->query("select * from minichat order by ID desc limit 10"); //order by ID desc limit l0
-
-$_SESSION['messages'] = '';
-while ($donnees = $reponse->fetch())
-{
-	$_SESSION['messages'] .= "<p><b>".$donnees['pseudo']."</b> : ".$donnees['message']."</p>";
-}
-
 header('Location: minichat.php');
 ?>
